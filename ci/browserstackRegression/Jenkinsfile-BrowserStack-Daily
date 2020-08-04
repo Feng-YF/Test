@@ -1,0 +1,44 @@
+String schedule = "0 0 * * *"
+
+pipeline {
+    agent { label 'generic' }
+    options { timestamps() }
+    environment {
+        NEXUS = credentials('nexus-digital-rbwm-read-login')
+        GITHUB = credentials('github-alm-mobile-read-login')
+        BROWSERSTACK = credentials('browserstack-write-login')
+        PROXY = credentials('880d325c-113b-4ccf-9035-27ba3b6553d9')
+        APP_CENTER_TOKEN = "a287a6ca967f4633efcf4c133abb9b956b39d27f"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    withCredentials([ usernamePassword(credentialsId: 'github-alm-mobile-read-login', usernameVariable: 'GITHUB_USR', passwordVariable: 'GITHUB_PSW') ]) {
+                        fullCheckout()
+                    }
+                }
+            }
+        }
+
+        stage("Run Tests") {
+            failFast false
+            parallel {
+                // "Parallel" is a place holder for future expansion
+                stage ("Run Group 1") {
+                    steps {
+                        sh 'ci/browserstackRegression/run-browserstack-parallel.sh'
+                    }
+                }
+            }
+        }
+    }
+}
+
+def fullCheckout() {
+    checkout scm
+    sh 'git submodule sync'
+    sh 'git submodule update --init --recursive'
+    sh 'git submodule update --recursive --remote'
+}
