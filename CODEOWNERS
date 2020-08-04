@@ -1,0 +1,7 @@
+* @mobile/x-global-automation
+
+src/test/java/com/hsbc/digital/testautomation/global/mobilextestautomation/steps/Mauth*.java @43927281 @45025287 @43928273 @45019699
+src/main/java/com/hsbc/digital/testautomation/global/mobilextestautomation/screens/*/mauth/ @43927281 @45025287 @43928273 @45019699
+
+src/test/java/com/hsbc/digital/testautomation/global/mobilextestautomation/steps/InTeracSteps.java @44135193 @45013041
+src/main/java/com/hsbc/digital/testautomation/global/mobilextestautomation/screens/*/interac/ @44135193 @45013041
